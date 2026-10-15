@@ -1,58 +1,89 @@
-# Sustainability Management · Web
+# Accounting Management Web
 
-React 19 + Vite interface for sustainability operations. The repository contains routes for dashboards, inventory, preparation, sessions, reports, organizations and user management.
+Read-only React admin panel for a field data tracking system: it shows sessions, preparations, stock and consolidated reports for the regions and units a user is allowed to see.
 
-> **Portfolio disclosure:** Only source-visible capabilities are described here. This is not a claim of production readiness, successful CI, or measurable business impact. The API and mobile counterparts are separate repositories currently undergoing privacy and publication review.
+Status: working panel built for a private organisation; not published as an open product. Records are created in the mobile app; this panel is for consultation.
 
-## Technology
+## What it does
 
-React, TypeScript, React Router, TanStack Query, Tailwind, Zod, Orval-generated HTTP client
+- Cookie-based sign-in against the backend, with automatic redirect to login on 401 (`src/hooks/use-auth.tsx`, `src/lib/api.ts`).
+- Permission-gated routes: only users with a region-viewing permission or administrator reach the panel (`src/components/protected-route.tsx`, `src/lib/permissions.ts`).
+- Scope filter (general, region, unit) that mirrors the backend's visibility levels (`src/components/scope-filter.tsx`).
+- Pages for dashboard, users, regions, units, sessions, preparations, stock, reports and settings (`src/pages/`).
+- Public privacy and support pages.
+- Typed API client generated from the backend's OpenAPI spec (`orval.config.ts`).
 
-## Architecture snapshot
+## Architecture
 
 ```mermaid
 flowchart LR
-  UI["Web / Mobile client"] --> Client["Typed HTTP client"]
-  Client --> API["Fastify / Zod API"]
-  API --> Logic["Application operations"]
-  Logic --> DB[("Database")]
+  Mobile["accounting-management-app (records data)"] -->|REST| API["accounting-management-api"]
+  Web["accounting-management-web (this repo)"] -->|"REST, HttpOnly cookies"| API
+  API --> DB[(Database)]
+  API --> Cognito[AWS Cognito]
+  Web --> Hosting["Static hosting (Firebase Hosting config)"]
 ```
 
-The diagram is a conceptual integration view across the product family; deployments and connectivity have not been independently verified. See implementation references below for actual repository code.
+```mermaid
+flowchart TB
+  Routes["App.tsx routes"] --> Guard["ProtectedRoute"]
+  Guard --> Layout["AppLayout"]
+  Layout --> Pages["pages/*"]
+  Pages --> Scope["ScopeFilter (general / region / unit)"]
+  Pages --> Hooks["http/generated (Orval + TanStack Query)"]
+  Hooks --> Axios["lib/api.ts (credentials, 401 handler)"]
+```
 
-## Inspect the source
+- Single-page app with no business rules of its own: scope and permission decisions are enforced by the API; the UI only hides what the user cannot request.
+- All server state goes through TanStack Query hooks generated from the API schema.
+- The stock endpoint is not yet covered by the generated client, so it has a small hand-written hook (`src/http/vegetal.ts`).
 
-- [`src/pages/dashboard.tsx`](src/pages/dashboard.tsx)
-- [`src/pages/estoque.tsx`](src/pages/estoque.tsx)
-- [`src/pages/preparos.tsx`](src/pages/preparos.tsx)
-- [`src/pages/relatorios.tsx`](src/pages/relatorios.tsx)
-- [`src/pages/nucleos.tsx`](src/pages/nucleos.tsx)
+## Key engineering decisions
 
-## Run and validate locally
+- HttpOnly cookies instead of tokens in browser storage; the Axios instance sends credentials and a global handler logs the user out on 401 (`src/lib/api.ts`).
+- Users, units and regions are provisioned through the identity provider, so the panel is deliberately read-only (`src/pages/usuarios.tsx`, `src/lib/permissions.ts`).
+- Permission names are shared constants matching the backend, with administrator as a superset (`src/hooks/use-auth.tsx`).
+- The API base URL is injected at build time through Vite `define`, so the Orval mutator works both inside and outside Vite (`vite.config.ts`, `src/lib/api.ts`).
+- Generated client is committed under `src/http/generated/`; regenerate with `yarn generate:api`.
 
-Install compatible runtimes and dependencies, configure environment values locally (never commit credentials), and run the available scripts:
+## Tech stack
+
+React 19, TypeScript 6, Vite 8, React Router 7, TanStack Query 5, Tailwind CSS 4, Radix UI, React Hook Form, Zod 4, Axios, Orval.
+
+## Getting started
+
+Prerequisites: Node 20+, Yarn, a running backend ([accounting-management-api](https://github.com/mkwitko/accounting-management-api)).
 
 ```bash
 yarn install --frozen-lockfile
+cp .env.example .env
+yarn dev
 yarn build
-yarn lint
 ```
 
-These are defined project scripts, **not** test results. The test/build environment, external services and credentials require their own setup.
+| Variable | Purpose |
+| --- | --- |
+| `VITE_API_URL` | Base URL of the backend API (also used by `yarn generate:api`) |
 
-## Engineering topics for technical review
+## Testing
 
-- Module boundaries and validation at HTTP/UI boundaries.
-- Typed integration between frontend/mobile and backend where available.
-- Authentication, permissions and separation of personal or organizational data.
-- Testability, reliability, error handling and dependency management.
+No automated tests. `yarn build` (type-check and bundle) succeeds locally. `yarn lint` reports 5 errors that have not been fixed.
 
-## Evidence and security backlog
+## Project structure
 
-- [ ] Obtain approval to publicly display project branding and domain-specific information.
-- [ ] Complete Git history scan for credentials, private URLs and personal information.
-- [ ] Create safe seed/demo data and real anonymized captures of screens or API examples.
-- [ ] Verify clean installs and passing quality checks in automated CI.
-- [ ] Add architecture decision records and reproducible measurements where supported.
+```text
+src/pages/        route screens
+src/components/   layout, route guard, scope filter, UI primitives
+src/hooks/        auth context
+src/http/         Orval-generated client, manual stock hook
+src/lib/          Axios instance, permissions, helpers
+```
 
-No external deployment or adoption claims are made here.
+## Related repositories
+
+- [accounting-management-api](https://github.com/mkwitko/accounting-management-api): backend API.
+- [accounting-management-app](https://github.com/mkwitko/accounting-management-app): Expo mobile client.
+
+## License
+
+All rights reserved. Source available for portfolio review.
