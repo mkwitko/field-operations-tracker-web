@@ -1,75 +1,58 @@
-# React + TypeScript + Vite
+# Sustainability Management · Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite interface for sustainability operations. The repository contains routes for dashboards, inventory, preparation, sessions, reports, organizations and user management.
 
-Currently, two official plugins are available:
+> **Portfolio disclosure:** Only source-visible capabilities are described here. This is not a claim of production readiness, successful CI, or measurable business impact. The API and mobile counterparts are separate repositories currently undergoing privacy and publication review.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Technology
 
-## React Compiler
+React, TypeScript, React Router, TanStack Query, Tailwind, Zod, Orval-generated HTTP client
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Architecture snapshot
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```mermaid
+flowchart LR
+  UI["Web / Mobile client"] --> Client["Typed HTTP client"]
+  Client --> API["Fastify / Zod API"]
+  API --> Logic["Application operations"]
+  Logic --> DB[("Database")]
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The diagram is a conceptual integration view across the product family; deployments and connectivity have not been independently verified. See implementation references below for actual repository code.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Inspect the source
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [`src/pages/dashboard.tsx`](src/pages/dashboard.tsx)
+- [`src/pages/estoque.tsx`](src/pages/estoque.tsx)
+- [`src/pages/preparos.tsx`](src/pages/preparos.tsx)
+- [`src/pages/relatorios.tsx`](src/pages/relatorios.tsx)
+- [`src/pages/nucleos.tsx`](src/pages/nucleos.tsx)
 
+## Run and validate locally
+
+Install compatible runtimes and dependencies, configure environment values locally (never commit credentials), and run the available scripts:
+
+```bash
+yarn install --frozen-lockfile
+yarn build
+yarn lint
 ```
+
+These are defined project scripts, **not** test results. The test/build environment, external services and credentials require their own setup.
+
+## Engineering topics for technical review
+
+- Module boundaries and validation at HTTP/UI boundaries.
+- Typed integration between frontend/mobile and backend where available.
+- Authentication, permissions and separation of personal or organizational data.
+- Testability, reliability, error handling and dependency management.
+
+## Evidence and security backlog
+
+- [ ] Obtain approval to publicly display project branding and domain-specific information.
+- [ ] Complete Git history scan for credentials, private URLs and personal information.
+- [ ] Create safe seed/demo data and real anonymized captures of screens or API examples.
+- [ ] Verify clean installs and passing quality checks in automated CI.
+- [ ] Add architecture decision records and reproducible measurements where supported.
+
+No external deployment or adoption claims are made here.
