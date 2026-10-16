@@ -45,7 +45,7 @@ export function AppLayout() {
       <aside className="hidden w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground md:flex">
         <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-6">
           <Layers className="size-6" />
-          <span className="text-lg font-bold">UDV Painel</span>
+          <span className="text-lg font-bold">Field Operations Tracker</span>
         </div>
         <nav className="flex-1 space-y-1 p-4">
           {nav.map((item) => (

@@ -57,7 +57,7 @@ export function LoginPage() {
           <div className="mb-2 flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Layers className="size-6" />
           </div>
-          <CardTitle className="text-2xl">UDV Painel</CardTitle>
+          <CardTitle className="text-2xl">Field Operations Tracker</CardTitle>
           <CardDescription>Entre para gerenciar o sistema</CardDescription>
         </CardHeader>
         <CardContent>

@@ -2,12 +2,13 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Leaf } from 'lucide-react'
 
-// E-mail de contato exibido nas páginas públicas (privacidade/suporte).
-// [EDITAR] Trocar pelo e-mail oficial de contato antes de publicar.
-export const CONTACT_EMAIL = 'suporte@udv.org.br'
+// Contact e-mail and responsible entity shown on the public pages (privacy/support).
+// Set VITE_CONTACT_EMAIL and VITE_LEGAL_ENTITY at build time; placeholders otherwise.
+export const CONTACT_EMAIL: string =
+  import.meta.env.VITE_CONTACT_EMAIL || 'contact@example.com'
 
-// [EDITAR] Confirmar razão social/entidade responsável.
-export const LEGAL_ENTITY = 'Centro Espírita Beneficente União do Vegetal'
+export const LEGAL_ENTITY: string =
+  import.meta.env.VITE_LEGAL_ENTITY || 'Responsible organisation'
 
 export function PublicLayout({
   title,
@@ -25,7 +26,7 @@ export function PublicLayout({
           <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Leaf className="size-5" />
           </div>
-          <span className="font-semibold">UDV Sustentabilidade</span>
+          <span className="font-semibold">Field Operations Tracker</span>
         </div>
       </header>
 

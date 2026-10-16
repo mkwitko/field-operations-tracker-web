@@ -18,7 +18,7 @@ export function SuportePage() {
   return (
     <PublicLayout
       title="Suporte"
-      subtitle="Precisa de ajuda com o UDV Sustentabilidade? Estamos aqui."
+      subtitle="Precisa de ajuda com o Field Operations Tracker? Estamos aqui."
     >
       <div className="rounded-xl border bg-background p-5">
         <div className="flex items-center gap-3">

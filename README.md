@@ -1,4 +1,4 @@
-# Accounting Management Web
+# Field Operations Tracker Web
 
 Read-only React admin panel for a field data tracking system: it shows sessions, preparations, stock and consolidated reports for the regions and units a user is allowed to see.
 
@@ -17,8 +17,8 @@ Status: working panel built for a private organisation; not published as an open
 
 ```mermaid
 flowchart LR
-  Mobile["accounting-management-app (records data)"] -->|REST| API["accounting-management-api"]
-  Web["accounting-management-web (this repo)"] -->|"REST, HttpOnly cookies"| API
+  Mobile["field-operations-tracker-app (records data)"] -->|REST| API["field-operations-tracker-api"]
+  Web["field-operations-tracker-web (this repo)"] -->|"REST, HttpOnly cookies"| API
   API --> DB[(Database)]
   API --> Cognito[AWS Cognito]
   Web --> Hosting["Static hosting (Firebase Hosting config)"]
@@ -52,7 +52,7 @@ React 19, TypeScript 6, Vite 8, React Router 7, TanStack Query 5, Tailwind CSS 4
 
 ## Getting started
 
-Prerequisites: Node 20+, Yarn, a running backend ([accounting-management-api](https://github.com/mkwitko/accounting-management-api)).
+Prerequisites: Node 20+, Yarn, a running backend ([field-operations-tracker-api](https://github.com/mkwitko/field-operations-tracker-api)).
 
 ```bash
 yarn install --frozen-lockfile
@@ -64,6 +64,8 @@ yarn build
 | Variable | Purpose |
 | --- | --- |
 | `VITE_API_URL` | Base URL of the backend API (also used by `yarn generate:api`) |
+| `VITE_CONTACT_EMAIL` | Contact e-mail shown on the privacy and support pages (optional) |
+| `VITE_LEGAL_ENTITY` | Responsible organisation name shown on the privacy page (optional) |
 
 ## Testing
 
@@ -81,8 +83,8 @@ src/lib/          Axios instance, permissions, helpers
 
 ## Related repositories
 
-- [accounting-management-api](https://github.com/mkwitko/accounting-management-api): backend API.
-- [accounting-management-app](https://github.com/mkwitko/accounting-management-app): Expo mobile client.
+- [field-operations-tracker-api](https://github.com/mkwitko/field-operations-tracker-api): backend API.
+- [field-operations-tracker-app](https://github.com/mkwitko/field-operations-tracker-app): Expo mobile client.
 
 ## License
 
