@@ -23,7 +23,7 @@ export function PrivacidadePage() {
     >
       <Section title="1. Quem somos">
         <p>
-          O aplicativo <strong>UDV Sustentabilidade</strong> é mantido pelo{' '}
+          O aplicativo <strong>Field Operations Tracker</strong> é mantido pelo{' '}
           {LEGAL_ENTITY} ("nós"). Esta política descreve como coletamos, usamos e
           protegemos seus dados pessoais ao utilizar o aplicativo, em conformidade
           com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018).
