@@ -13,6 +13,28 @@ Status: working panel built for a private organisation; not published as an open
 - Public privacy and support pages.
 - Typed API client generated from the backend's OpenAPI spec (`orval.config.ts`).
 
+## Screenshots
+
+Admin panel with fictitious seed data injected by intercepting API requests (no backend run). The UI still shows the legacy "UDV Painel" product name.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/01-dashboard-desktop.png" alt="Dashboard with system counts"><br><sub>Dashboard with system counts.</sub></td>
+    <td width="50%"><img src="docs/screenshots/02-stock-desktop.png" alt="Vegetal stock by unit"><br><sub>Vegetal stock by unit.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/03-preparations-desktop.png" alt="Preparations"><br><sub>Preparations.</sub></td>
+    <td width="50%"><img src="docs/screenshots/04-reports-desktop.png" alt="Consolidated reports"><br><sub>Consolidated reports.</sub></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="25%"><img src="docs/screenshots/01-dashboard-mobile.png" alt="Dashboard on mobile"><br><sub>Dashboard on mobile.</sub></td>
+    <td width="25%"><img src="docs/screenshots/02-stock-mobile.png" alt="Stock on mobile"><br><sub>Stock on mobile.</sub></td>
+  </tr>
+</table>
+
 ## Architecture
 
 ```mermaid
